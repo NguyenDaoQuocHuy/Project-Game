@@ -1,0 +1,106 @@
+﻿@model Project_64140855.Models.Order
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .order-details {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px 40px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+        .order-details h2 {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+    .order-info p {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: #34495e;
+    }
+
+    .order-info strong {
+        display: inline-block;
+        width: 140px;
+        color: #2c3e50;
+    }
+
+    table.table {
+        margin-top: 20px;
+    }
+
+    table th {
+        background-color: #3498db;
+        color: white;
+        text-align: center;
+    }
+
+    table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .btn-back {
+        margin-top: 25px;
+        display: block;
+        width: fit-content;
+        background-color: #95a5a6;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-back:hover {
+            background-color: #7f8c8d;
+        }
+</style>
+
+<div class="order-details">
+    <h2>🧾 Chi tiết đơn hàng #@Model.OrderId</h2>
+
+    <div class="order-info">
+        <p><strong>Người mua:</strong> @Model.User.FullName</p>
+        <p><strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy")</p>
+        <p><strong>Trạng thái:</strong> @Model.Status</p>
+        <p><strong>Tổng tiền:</strong> @Model.TotalAmount.ToString("N0") ₫</p>
+    </div>
+
+    <hr />
+
+    <h4 class="mt-4 mb-3">🎮 Sản phẩm đã mua</h4>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Tên game</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@item.Game.Title</td>
+                    <td>@item.UnitPrice.ToString("N0") ₫</td>
+                    <td>@item.Quantity</td>
+                    <td>@(item.Quantity * item.UnitPrice)₫</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a href="@Url.Action("Order")" class="btn-back">⬅ Quay lại danh sách</a>
+</div>

@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .dashboard-card {
+        border-radius: 1.5rem;
+        background: #ffffff;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+
+    .dashboard-title {
+        color: mediumblue;
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    .dashboard-text {
+        font-size: 1.1rem;
+        color: #555;
+    }
+</style>
+
+<div class="container">
+    <div class="dashboard-card text-center">
+        <h2 class="dashboard-title">Chào mừng đến với Trang Quản Trị!</h2>
+        <p class="dashboard-text">
+            Đây là khu vực quản lý toàn bộ hệ thống bán game.<br />
+            Bạn có thể thực hiện các thao tác như:
+        </p>
+        <ul class="list-unstyled dashboard-text text-center">
+            <li>🧑‍💼 Quản lý thông tin và quyền truy cập của người dùng</li>
+            <li>🎮 Thêm mới, chỉnh sửa và xóa game trong cửa hàng</li>
+            <li>📦 Theo dõi và xử lý các đơn hàng mua game</li>
+            <li>🗂️ Quản lý danh mục giúp phân loại game dễ dàng</li>
+        </ul>
+
+        <p class="dashboard-text">
+            Hãy sử dụng thanh điều hướng ở trên để bắt đầu!
+        </p>
+    </div>
+</div>

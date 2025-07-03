@@ -1,0 +1,127 @@
+﻿@model Project_64140855.Models.User
+
+@{
+    ViewBag.Title = "Thông tin người dùng";
+    Layout = "~/Views/Shared/_Layoutcus.cshtml";
+}
+
+<style>
+    .profile-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .profile-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .profile-info p {
+        font-size: 18px;
+        margin: 12px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-info label {
+        font-weight: 600;
+        color: #2980b9;
+        width: 140px;
+        display: inline-block;
+    }
+
+    .password-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .password-text {
+        font-family: 'Segoe UI';
+        letter-spacing: 2px;
+    }
+
+    .eye-icon {
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: #2980b9;
+    }
+
+    .edit-btn {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 2px 6px rgba(52, 152, 219, 0.4);
+    }
+
+        .edit-btn:hover {
+            background-color: #217dbb;
+        }
+</style>
+
+<div class="profile-container">
+    <h2 class="profile-title">👤 Thông tin người dùng</h2>
+
+    @if (Model != null)
+    {
+        <div class="profile-info">
+            <p><label>Họ tên:</label> @Model.FullName</p>
+            <p><label>Email:</label> @Model.Email</p>
+            <p>
+                <label>Mật khẩu:</label>
+                <span class="password-container">
+                    <span id="passwordText" class="password-text">@(new string('*', Model.Password?.Length ?? 8))</span>
+                    <button id="togglePassword" class="eye-icon" type="button" onclick="togglePassword()">👁</button>
+                </span>
+            </p>
+        </div>
+
+        <a href="@Url.Action("EditProfileUser", "Users_64130855", new { id = Model.UserId })" class="edit-btn">✏️ Chỉnh sửa thông tin</a>
+    }
+    else
+    {
+        <p>Không tìm thấy thông tin người dùng.</p>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        var isVisible = false;
+        var passwordRaw = '@Model.Password';
+
+        function togglePassword() {
+            const passwordText = document.getElementById("passwordText");
+            const toggleBtn = document.getElementById("togglePassword");
+
+            if (isVisible) {
+                passwordText.textContent = '*'.repeat(passwordRaw.length);
+                toggleBtn.textContent = '🙈';
+                isVisible = false;
+            } else {
+                passwordText.textContent = passwordRaw;
+                toggleBtn.textContent = '👁';
+                isVisible = true;
+            }
+        }
+    </script>
+}

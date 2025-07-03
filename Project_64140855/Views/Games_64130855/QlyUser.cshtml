@@ -1,0 +1,225 @@
+﻿@model IEnumerable<Project_64140855.Models.User>
+@{
+    ViewBag.Title = "Quản Lý User";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    /* Container tổng */
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-weight: 700;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+    }
+
+    form.form-inline {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+        form.form-inline input[type="text"],
+        form.form-inline select {
+            padding: 8px 12px;
+            border: 1.8px solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s ease;
+            min-width: 220px;
+        }
+
+            form.form-inline input[type="text"]:focus,
+            form.form-inline select:focus {
+                border-color: #2980b9;
+                box-shadow: 0 0 5px #2980b9;
+            }
+
+        form.form-inline button,
+        form.form-inline a.btn {
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        form.form-inline button {
+            background-color: #2980b9;
+        }
+
+            form.form-inline button:hover {
+                background-color: #1f618d;
+            }
+
+        form.form-inline a.btn {
+            background-color: #27ae60;
+        }
+
+            form.form-inline a.btn:hover {
+                background-color: #1e8449;
+            }
+
+    /* Bảng */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: white;
+    }
+
+    thead tr {
+
+        color: black;
+        font-weight: 700;
+        text-align: left;
+        user-select: none;
+    }
+
+    tbody tr:hover {
+        background-color: #ecf0f1;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+        td:nth-child(1) {
+            width: 60px;
+            font-weight: 600;
+        }
+
+        td:nth-child(5) {
+            width: 110px;
+            font-weight: 600;
+        }
+
+        td:nth-child(6) {
+            width: 130px;
+            text-align: center;
+        }
+
+    /* Badge cho role */
+    .badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 13px;
+        font-weight: 600;
+        color: white;
+    }
+
+        .badge.admin {
+            background-color: #e74c3c;
+        }
+
+        .badge.user {
+            background-color: #7f8c8d;
+        }
+
+    /* Button thao tác */
+    .btn-edit,
+    .btn-delete {
+        border: none;
+        padding: 6px 10px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        font-size: 13px;
+        margin: 0 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-edit {
+        background-color: #f39c12;
+    }
+
+        .btn-edit:hover {
+            background-color: #d68910;
+        }
+
+    .btn-delete {
+        background-color: #c0392b;
+    }
+
+        .btn-delete:hover {
+            background-color: #922b21;
+        }
+</style>
+
+<h2>Quản lý Người dùng</h2>
+
+<form method="get" class="form-inline">
+    <input class="w-25" type="text" name="search" placeholder="Tìm kiếm UserName hoặc Email" value="@Request["search"]" />
+    <select name="role">
+        <option value="">Tất cả vai trò</option>
+        <option value="User" @(Request["role"] == "User" ? "selected" : "")>User</option>
+        <option value="Admin" @(Request["role"] == "Admin" ? "selected" : "")>Admin</option>
+    </select>
+    <button type="submit">Tìm kiếm</button>
+    <a href="@Url.Action("CreateUser")" class="btn btn-add">Thêm mới</a>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>UserId</th>
+            <th>UserName</th>
+            <th>FullName</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th class="text-center" style="width:100px;">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserId</td>
+                <td>@user.UserName</td>
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>
+                    @if (user.Role == "Admin")
+                    {
+                        <span class="badge admin">Admin</span>
+                    }
+                    else
+                    {
+                        <span class="badge user">User</span>
+                    }
+                </td>
+                <td class="d-flex w-100">
+                    <a href="@Url.Action("EditUser", new { id = user.UserId })" class="btn-edit" title="Sửa">Sửa</a>
+                    <a href="@Url.Action("DeleteUser", new { id = user.UserId })" class="btn-delete" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa người dùng này không?');">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<section aria-label="Page navigation" class="mt-3">
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("QlyUser", new { page = i, search = Request["search"]})">@i</a>
+            </li>
+
+        }
+    </ul>
+</section>

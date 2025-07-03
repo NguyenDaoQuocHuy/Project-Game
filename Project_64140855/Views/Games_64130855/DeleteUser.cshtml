@@ -1,0 +1,43 @@
+﻿@model Project_64140855.Models.User
+
+@{
+    ViewBag.Title = "Xóa người dùng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-lg">
+        <div class="card-header bg-danger text-white text-center">
+            <h4>Xác nhận xóa người dùng</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Tên đăng nhập:</dt>
+                <dd class="col-sm-9">@Model.UserName</dd>
+
+                <dt class="col-sm-3">Họ tên:</dt>
+                <dd class="col-sm-9">@Model.FullName</dd>
+
+                <dt class="col-sm-3">Email:</dt>
+                <dd class="col-sm-9">@Model.Email</dd>
+
+                <dt class="col-sm-3">Quyền:</dt>
+                <dd class="col-sm-9">@Model.Role</dd>
+            </dl>
+
+            <div class="alert alert-warning mt-3" role="alert">
+                <strong>Bạn có chắc muốn xóa người dùng này?</strong> Thao tác này không thể hoàn tác.
+            </div>
+
+            @using (Html.BeginForm("DeleteConfirmedUser", "Games_64130855", new { id = Model.UserId }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i> Xóa
+                </button>
+                @Html.ActionLink("Hủy", "QlyUser", null, new { @class = "btn btn-secondary ms-2" })
+            }
+        </div>
+    </div>
+</div>
+

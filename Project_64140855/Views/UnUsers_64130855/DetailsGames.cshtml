@@ -1,0 +1,115 @@
+﻿@model Project_64140855.Models.Game
+
+@{
+    ViewBag.Title = "Chi tiết game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .game-detail {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+
+        .game-detail img {
+            max-width: 100%;
+            border-radius: 12px;
+            flex: 1 1 300px;
+            object-fit: cover;
+            height: auto;
+        }
+
+    .game-info {
+        flex: 1 1 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .game-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    .game-price {
+        font-size: 1.5rem;
+        color: #e74c3c;
+        font-weight: 600;
+    }
+
+    .game-category {
+        font-size: 1.1rem;
+        color: #3498db;
+    }
+
+    .game-description {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #555;
+    }
+
+    .game-rating {
+        font-size: 1.1rem;
+        color: #f1c40f;
+    }
+
+    .game-actions {
+        margin-top: 20px;
+        display: flex;
+        gap: 15px;
+    }
+
+        .game-actions .btn {
+            padding: 10px 20px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+        }
+
+    .btn-buy {
+        background-color: #27ae60;
+        color: white;
+    }
+
+    .btn-cart {
+        background-color: #f39c12;
+        color: white;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<div class="game-detail">
+    <img src="@Model.ImageUrl" alt="@Model.Title" />
+
+    <div class="game-info">
+        <div class="game-title">@Model.Title</div>
+        <div class="game-price">💰 Giá: @Model.Price.ToString("N0") VNĐ</div>
+        <div class="game-category">📂 Thể loại: @Model.Category.CategoryName</div>
+        <div class="game-rating">⭐ Đánh giá: 4.5/5 (giả lập)</div>
+        <div class="game-description">@Html.Raw(Model.Description)</div>
+
+        <div class="game-actions">
+            <form action="@Url.Action("Login", "Account_64130855")" method="post" style="margin-right: 10px;">
+                <button type="submit" class="btn btn-buy">🛒 Mua ngay</button>
+            </form>
+
+            <form action="@Url.Action("Login", "Account_64130855")" method="post">
+                <button type="submit" class="btn btn-cart">➕ Thêm vào giỏ</button>
+            </form>
+        </div>
+
+
+    </div>
+</div>

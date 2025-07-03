@@ -1,0 +1,91 @@
+﻿@model Project_64140855.Models.User
+@{
+    ViewBag.Title = "Sửa thông tin người dùng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .card-header {
+        background-color: mediumblue;
+        color: white;
+        border-top-left-radius: 1.5rem;
+        border-top-right-radius: 1.5rem;
+        padding: 1rem 1.5rem;
+        text-align: center;
+    }
+
+    .card {
+        border: none;
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #003366;
+            box-shadow: 0 0 0 0.2rem rgba(0, 51, 102, 0.25);
+        }
+
+    .btn-success {
+        border-radius: 0.5rem;
+        font-weight: 600;
+        padding: 0.6rem;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+</style>
+
+<div class="container mt-5" style="max-width: 600px;">
+    <div class="card shadow rounded-4">
+        <div class="card-header text-white">
+            <h3 class="mb-0">Sửa thông tin người dùng</h3>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.UserId)
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.FullName, "Họ và tên", new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.UserName, "Tên đăng nhập", new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Email, "Địa chỉ email", new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.Label("Mật khẩu mới (để trống nếu không đổi)", new { @class = "form-label" })
+                    <input type="password" name="newPassword" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Role, "Vai trò", new { @class = "form-label" })
+                    @Html.DropDownListFor(m => m.Role, new SelectList(new[] { "User", "Admin" }, Model.Role), "Chọn vai trò", new { @class = "form-select" })
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">Lưu thay đổi</button>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+﻿@model Project_64140855.Models.User
+@{
+    ViewBag.Title = "Đăng ký tài khoản";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .register-container {
+        max-width: 600px;
+        margin: 40px auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+        .register-container h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+    .form-label {
+        font-weight: 500;
+        color: #34495e;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .validation-summary-errors {
+        color: red;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="register-container">
+    <h2>🔐 Đăng ký tài khoản</h2>
+
+    @using (Html.BeginForm("RegisterAdmin", "Account", FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger validation-summary-errors" })
+
+        @Html.LabelFor(m => m.UserName, "Tên đăng nhập")
+        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+
+        @Html.LabelFor(m => m.Password, "Mật khẩu")
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+
+        @Html.LabelFor(m => m.FullName, "Họ và tên")
+        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+
+        @Html.LabelFor(m => m.Email, "Email")
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+
+        <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
+    }
+</div>

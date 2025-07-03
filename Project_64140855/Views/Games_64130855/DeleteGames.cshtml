@@ -1,0 +1,51 @@
+﻿@model Project_64140855.Models.Game
+
+@{
+    ViewBag.Title = "Xóa Game";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h3 class="mb-0 text-center">Xóa Game</h3>
+        </div>
+        <div class="card-body">
+            <h4>Bạn có chắc muốn xóa game này không?</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-3">Tiêu đề</dt>
+                <dd class="col-sm-9">@Model.Title</dd>
+
+                <dt class="col-sm-3">Mô tả</dt>
+                <dd class="col-sm-9">@Model.Description</dd>
+
+                <dt class="col-sm-3">Giá</dt>
+                <dd class="col-sm-9">@Model.Price.ToString("C")</dd>
+
+                <dt class="col-sm-3">Ảnh</dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="@Model.Title" style="max-width:200px;" />
+                    }
+                    else
+                    {
+                        <span>(Không có ảnh)</span>
+                    }
+                </dd>
+            </dl>
+
+            @using (Html.BeginForm("DeleteConfirmedGames", "Games_64130855", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("id", Model.GameId) <!-- dòng sửa để đảm bảo gửi đúng id -->
+
+                <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+                <a href="@Url.Action("Index", "Games_64130855")" class="btn btn-secondary ms-2">Hủy</a>
+            }
+
+        </div>
+    </div>
+</div>
+

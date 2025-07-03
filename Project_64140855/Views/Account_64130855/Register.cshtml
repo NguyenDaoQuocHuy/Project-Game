@@ -1,0 +1,75 @@
+﻿@model Project_64140855.Models.User
+@{
+    ViewBag.Title = "Đăng ký tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .register-container {
+        max-width: 600px;
+        margin: 40px auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+        .register-container h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+    .form-label {
+        font-weight: 500;
+        color: #34495e;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .validation-summary-errors {
+        color: red;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="register-container">
+    <h2>🔐 Đăng ký tài khoản</h2>
+
+    @using (Html.BeginForm("Register", "Account_64130855", FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger validation-summary-errors" })
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.FullName, "Họ Tên", htmlAttributes: new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @placeholder = "Nhập họ và tên" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.UserName, "Tên Đăng Nhập", htmlAttributes: new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Nhập tên đăng nhập" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Nhập email" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Password,"Mật Khẩu", htmlAttributes: new { @class = "form-label" })
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Nhập mật khẩu" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Xác nhận mật khẩu</label>
+            <input type="password" name="ConfirmPassword" class="form-control" placeholder="Nhập lại mật khẩu" />
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-2">Tạo tài khoản</button>
+    }
+</div>

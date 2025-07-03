@@ -1,0 +1,120 @@
+﻿@model Project_64140855.Models.Game
+@{
+    ViewBag.Title = Model == null || Model.GameId == 0 ? "Thêm Game" : "Chỉnh sửa Game";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    h2 {
+        margin-bottom: 30px;
+        color: #2c3e50;
+        font-weight: 700;
+        font-size: 28px;
+        text-align: center;
+    }
+
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #f9f9f9;
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #34495e;
+    }
+
+    input.form-control,
+    textarea.form-control,
+    select.form-control {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        transition: border-color 0.3s ease;
+    }
+
+        input.form-control:focus,
+        textarea.form-control:focus,
+        select.form-control:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+
+    button.btn-primary {
+        background-color: #3498db;
+        border: none;
+        padding: 12px 28px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        color: white;
+    }
+
+        button.btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+    a.btn-secondary {
+        background-color: #95a5a6;
+        color: white;
+        padding: 12px 28px;
+        font-size: 16px;
+        border-radius: 6px;
+        margin-left: 15px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+    }
+
+        a.btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+</style>
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("EditGames", "Games_64130855", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.GameId)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, "Tiêu đề")
+        @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Nhập tiêu đề game" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, "Mô tả")
+        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 4, placeholder = "Nhập mô tả game" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Price, "Giá")
+        @Html.TextBoxFor(m => m.Price, new { @class = "form-control", placeholder = "Nhập giá game" })
+    </div>
+    <div class="form-group mb-3">
+        @Html.Label("Ảnh", htmlAttributes: new { @class = "control-label fw-bolder my-2" })
+        <div class="col-md-10">
+            <input type="file" name="uploadImage" accept="image/*" />
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Thể loại", htmlAttributes: new { @class = "control-label fw-bolder my-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("CategoryId", null, "Chọn thể loại", new { @class = "form-control" })
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <a href="@Url.Action("QlyGames")" class="btn btn-secondary">Quay lại</a>
+}

@@ -1,0 +1,84 @@
+﻿@model Project_64140855.Models.Category
+
+@{
+    ViewBag.Title = "Thêm mới danh mục";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="mb-4 text-center">➕ Thêm mới danh mục</h2>
+
+<div class="card shadow p-4 mx-auto" style="max-width: 600px;">
+    @using (Html.BeginForm("CreateCategories", "Games_64130855", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.CategoryName, "Tên danh mục", new { @class = "fw-bold mb-2" })
+            @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control", placeholder = "Nhập tên danh mục", required = "required" })
+            @Html.ValidationMessageFor(m => m.CategoryName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-success px-4">
+                <i class="bi bi-save2"></i> Lưu
+            </button>
+            @Html.ActionLink("Quay lại", "QlyCategories", null, new { @class = "btn btn-outline-secondary ms-2" })
+        </div>
+    }
+</div>
+
+<style>
+    .fw-bold {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+        padding: 10px 12px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #198754; /* màu xanh lá Bootstrap success */
+            outline: none;
+            box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);
+        }
+
+    .btn-success {
+        border-radius: 0.5rem;
+        font-weight: 600;
+        padding: 10px 28px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-success:hover {
+            background-color: #157347;
+        }
+
+    .btn-outline-secondary {
+        border-radius: 0.5rem;
+        padding: 10px 28px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: #e2e6ea;
+        }
+
+    .text-end {
+        text-align: right;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+
+    .mx-auto {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+</style>

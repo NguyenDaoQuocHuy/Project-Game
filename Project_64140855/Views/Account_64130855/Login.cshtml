@@ -1,0 +1,73 @@
+﻿@model Project_64140855.Models.User
+
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .login-container {
+        max-width: 500px;
+        margin: 50px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+        .login-container h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+    .form-label {
+        font-weight: 500;
+        color: #34495e;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .text-danger {
+        font-size: 0.9rem;
+    }
+
+    .checkbox label {
+        margin-left: 5px;
+    }
+
+    .register-link {
+        margin-top: 15px;
+        display: block;
+        text-align: center;
+    }
+</style>
+
+<div class="login-container">
+    <h2>🔐 Đăng nhập</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Nhập email" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Password,"Mật Khẩu", htmlAttributes: new { @class = "form-label" })
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Nhập mật khẩu" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">Đăng nhập</button>
+
+        <a href="@Url.Action("Register", "Account_64130855")" class="register-link">Chưa có tài khoản? Đăng ký ngay</a>
+    }
+</div>

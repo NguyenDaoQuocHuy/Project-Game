@@ -1,0 +1,219 @@
+﻿@model IEnumerable<Project_64140855.Models.Game>
+@{
+    ViewBag.Title = "Danh sách game";
+    Layout = "~/Views/Shared/_Layoutcus.cshtml";
+}
+
+<style>
+    /* Form lọc */
+    form.form-inline {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 30px;
+        align-items: center;
+        overflow-x: auto; /* scroll ngang */
+    }
+
+        form.form-inline input[type="text"],
+        form.form-inline input[type="number"],
+        form.form-inline select {
+            padding: 8px 12px;
+            border: 1.5px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 110px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            form.form-inline input[type="text"]:focus,
+            form.form-inline input[type="number"]:focus,
+            form.form-inline select:focus {
+                border-color: #2980b9;
+                box-shadow: 0 0 5px #2980b9;
+                outline: none;
+            }
+
+        form.form-inline button {
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 8px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            form.form-inline button:hover {
+                background-color: #1f618d;
+            }
+
+    /* Tiêu đề */
+    h2.mb-4 {
+        text-align: center;
+        color: #34495e;
+        font-weight: 700;
+        margin-bottom: 40px;
+    }
+
+    /* Card game */
+    .row > div.col-md-3 {
+        margin-bottom: 30px;
+    }
+
+    .card {
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(41,128,185,0.3);
+        }
+
+        .card img {
+            height: 180px;
+            object-fit: cover;
+            width: 100%;
+            border-bottom: 1px solid #eee;
+        }
+
+    .card-body {
+        padding: 15px 18px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 12px;
+    }
+
+    .card-text {
+        font-size: 15px;
+        color: #7f8c8d;
+        margin-bottom: 16px;
+    }
+
+    .btn-outline-primary {
+        align-self: flex-start;
+        padding: 6px 14px;
+        font-weight: 600;
+        border-radius: 8px;
+        border: 2px solid #2980b9;
+        color: #2980b9;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #2980b9;
+            color: white;
+            text-decoration: none;
+        }
+
+    .banner {
+        position: relative;
+        background-image: url('/images/banner-game.jpg'); /* Đường dẫn ảnh banner*/
+        background-size: cover;
+        background-position: center;
+        height: 180px;
+        border-radius: 12px;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        padding: 0 20px;
+    }
+
+        .banner::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(41, 128, 185, 0.6); /* Màu overlay xanh dương trong suốt */
+            border-radius: 12px;
+            z-index: 1;
+        }
+
+    .banner-content {
+        position: relative;
+        z-index: 2;
+    }
+
+        .banner-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .banner-content p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+        }
+</style>
+
+<div class="banner">
+    <div class="banner-content">
+        <h1>Chào mừng đến với cửa hàng game của chúng tôi!</h1>
+        <p>Tận hưởng trải nghiệm mua sắm game tuyệt vời</p>
+    </div>
+</div>
+<h2 class="mb-4">🎮 Danh sách game</h2>
+
+<form method="get" class="form-inline mb-4">
+    <input type="text" name="search" placeholder="Tìm kiếm tên game..." class="form-control mr-2" value="@Request["search"]" />
+    <select name="categoryId" class="form-control mr-2">
+        <option value="">-- Tất cả thể loại --</option>
+        @foreach (var cat in ViewBag.Categories as SelectList)
+        {
+            <option value="@cat.Value" @(Request["categoryId"] == cat.Value ? "selected" : "")>@cat.Text</option>
+        }
+    </select>
+    <input type="number" name="minPrice" class="form-control mr-2" placeholder="Giá từ" value="@Request["minPrice"]" />
+    <input type="number" name="maxPrice" class="form-control mr-2" placeholder="Đến" value="@Request["maxPrice"]" />
+    <button type="submit" class="btn btn-primary">Lọc</button>
+</form>
+
+<div class="row">
+    @foreach (var game in Model)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 shadow-sm">
+               <img src="@Url.Content("~/Images/" + game.ImageUrl)"  class="card-img-top" alt="@game.Title" style="height: 180px; object-fit: cover;" />
+                <div class="card-body">
+                    <h5 class="card-title">@game.Title</h5>
+                    <p class="card-text text-muted">@String.Format("{0:N0} đ", game.Price)</p>
+                    <a href="@Url.Action("DetailsGames", "Users_64130855", new { id = game.GameId })" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<section aria-label="Page navigation" class="mt-3">
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index_2", new { page = i, search = Request["search"]})">@i</a>
+            </li>
+
+        }
+    </ul>
+</section>

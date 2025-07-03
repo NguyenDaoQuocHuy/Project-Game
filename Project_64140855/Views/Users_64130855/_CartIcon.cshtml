@@ -1,0 +1,12 @@
+﻿@{
+    var quantity = ViewBag.CartQuantity ?? 0;
+}
+<a href="@Url.Action("CartGames", "Users_64130855")" class="fs-2 position-relative" style="text-decoration:none; color:black;">
+    🛒
+    @if ((int)quantity > 0)
+    {
+        <span style="position:absolute;top:-5px;right:-10px;background:red;color:white;border-radius:50%;padding:2px 7px;font-size:0.75rem;font-weight:bold;">
+            @quantity
+        </span>
+    }
+</a>

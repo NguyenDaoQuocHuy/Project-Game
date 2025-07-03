@@ -1,0 +1,110 @@
+﻿@model Project_64140855.Models.Dashboard_64130855
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="mb-4 text-center">📊 Thống kê tổng quan</h2>
+
+<div class="row text-center mb-5">
+    <div class="col-md-3 mb-3">
+        <div class="p-4 bg-primary text-white rounded shadow">
+            <h3>@Model.TotalOrders</h3>
+            <p>Đơn hàng</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="p-4 bg-success text-white rounded shadow">
+            <h3>@String.Format("{0:N0} VNĐ", Model.TotalRevenue)</h3>
+            <p>Doanh thu</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="p-4 bg-warning text-dark rounded shadow">
+            <h3>@Model.TotalGames</h3>
+            <p>Số lượng game</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="p-4 bg-info text-white rounded shadow">
+            <h3>@Model.TotalUsers</h3>
+            <p>Người dùng</p>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-6">
+        <h4 class="text-center mb-3">📈 Đơn hàng 7 ngày gần nhất</h4>
+        <div style="height: 250px;">
+            <canvas id="ordersChart"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h4 class="text-center mb-3">📊 Đơn hàng theo trạng thái</h4>
+        <div style="height: 250px;">
+            <canvas id="statusChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ordersByDate = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrdersByDate));
+    const orderStatusGroups = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrderStatusGroups));
+
+    // Biểu đồ đơn hàng theo ngày
+    const ctxOrders = document.getElementById('ordersChart').getContext('2d');
+    new Chart(ctxOrders, {
+        type: 'line',
+        data: {
+            labels: ordersByDate.map(x => x.Date),
+            datasets: [{
+                label: 'Số đơn hàng',
+                data: ordersByDate.map(x => x.Count),
+                fill: true,
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderColor: 'rgba(52, 152, 219, 1)',
+                borderWidth: 2,
+                tension: 0.4,
+                pointRadius: 3,
+                pointBackgroundColor: '#3498db'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
+            }
+        }
+    });
+
+    // Biểu đồ trạng thái đơn hàng
+    const ctxStatus = document.getElementById('statusChart').getContext('2d');
+    new Chart(ctxStatus, {
+        type: 'doughnut',
+        data: {
+            labels: orderStatusGroups.map(x => x.Status),
+            datasets: [{
+                data: orderStatusGroups.map(x => x.Count),
+                backgroundColor: ['#3498db', '#2ecc71', '#e67e22', '#e74c3c', '#9b59b6', '#34495e']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '60%',
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+</script>

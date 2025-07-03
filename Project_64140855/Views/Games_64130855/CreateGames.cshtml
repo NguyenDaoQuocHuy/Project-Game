@@ -1,0 +1,112 @@
+﻿@model Project_64140855.Models.Game
+@{
+    ViewBag.Title = Model == null || Model.GameId == 0 ? "Thêm Game" : "Chỉnh sửa Game";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="mb-4 text-center">🎮 @ViewBag.Title</h2>
+
+<div class="card shadow p-4 mx-auto" style="max-width: 600px;">
+    @using (Html.BeginForm("CreateGames", "Games_64130855", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.Title, "Tiêu đề", new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Nhập tiêu đề game" })
+            @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.Description, "Mô tả", new { @class = "fw-bold" })
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 4, placeholder = "Nhập mô tả game" })
+            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.Price, "Giá", new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.Price, new { @class = "form-control", placeholder = "Nhập giá game" })
+            @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group mb-3">
+            @Html.Label("Ảnh", htmlAttributes: new { @class = "control-label fw-bolder my-2" })
+            <div class="col-md-10">
+                <input type="file" name="uploadImage" accept="image/*" />
+            </div>
+        </div>
+
+        <div class="form-group mb-4">
+            @Html.LabelFor(m => m.CategoryId, "Thể loại", new { @class = "fw-bold" })
+            @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewBag.CategoryId, "-- Chọn thể loại --", new { @class = "form-select" })
+            @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary px-4">Lưu</button>
+            <a href="@Url.Action("QlyGames")" class="btn btn-secondary ms-2">Quay lại</a>
+        </div>
+    }
+</div>
+
+<style>
+    .fw-bold {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-control, .form-select {
+        border-radius: 0.5rem;
+        padding: 10px 12px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            outline: none;
+            box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+        }
+
+    .btn-primary {
+        border-radius: 0.5rem;
+        font-weight: 600;
+        padding: 10px 28px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+        }
+
+    .btn-secondary {
+        border-radius: 0.5rem;
+        padding: 10px 28px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #6c757d;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5c636a;
+            color: #fff;
+        }
+
+    .text-end {
+        text-align: right;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+
+    .mb-4 {
+        margin-bottom: 1.5rem;
+    }
+
+    .mx-auto {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+</style>

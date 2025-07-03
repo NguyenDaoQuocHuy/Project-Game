@@ -1,0 +1,125 @@
+﻿@model Project_64140855.Models.User
+
+@{
+    ViewBag.Title = "Chỉnh sửa thông tin người dùng";
+    Layout = "~/Views/Shared/_Layoutcus.cshtml";
+}
+
+<style>
+    .edit-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .edit-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: 600;
+        color: #2980b9;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 6px rgba(52, 152, 219, 0.5);
+        }
+
+    .btn-submit {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 2px 6px rgba(52, 152, 219, 0.4);
+    }
+
+        .btn-submit:hover {
+            background-color: #217dbb;
+        }
+
+    .validation-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+</style>
+
+<div class="edit-container">
+    <h2 class="edit-title">✏️ Chỉnh sửa thông tin người dùng</h2>
+
+    @using (Html.BeginForm("EditProfileUser", "Users_64130855", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.UserId)
+
+        <div class="form-group">
+            <label for="FullName">Họ tên</label>
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", placeholder = "Nhập họ tên" })
+            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "validation-message" })
+        </div>
+        <div class="form-group">
+            <label for="OldPassword">Mật khẩu hiện tại</label>
+            <input type="password" name="oldPassword" class="form-control" placeholder="Nhập mật khẩu hiện tại" />
+            @if (ViewBag.PasswordError != null)
+            {
+                <span class="validation-message">@ViewBag.PasswordError</span>
+            }
+        </div>
+
+
+        <div class="form-group">
+            <label for="NewPassword">Mật khẩu mới</label>
+            <input type="password" name="newPassword" class="form-control" placeholder="Nhập mật khẩu mới" />
+        </div>
+
+        <div class="form-group">
+            <label for="NewPassword">Mật khẩu mới (Nếu muốn thay đổi)</label>
+            <input type="password" name="newPassword" class="form-control" placeholder="Nhập mật khẩu mới" />
+        </div>
+
+        <button type="submit" class="btn-submit">Lưu thay đổi</button>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")  @* Nếu bạn có sử dụng jQuery validate *@
+}

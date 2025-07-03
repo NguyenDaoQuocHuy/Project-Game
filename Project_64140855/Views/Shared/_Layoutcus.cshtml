@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - GameStores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #banner {
+            text-align: center;
+            background: linear-gradient(to right, #2c3e50, #3498db);
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #menu {
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+            #menu .nav-links a {
+                text-decoration: none;
+                color: #2c3e50;
+                margin-right: 15px;
+                font-weight: 500;
+                transition: 0.3s;
+            }
+
+                #menu .nav-links a:hover {
+                    color: #007bff;
+                }
+
+            #menu hr {
+                margin-top: 10px;
+                border-top: 1px solid #3498db;
+            }
+
+        .content-container {
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="banner">🎮 GameStores</div>
+
+    <div id="menu">
+        <div class="nav-links">
+            @Html.ActionLink("Giới thiệu", "GioiThieu_64130855_2", "Users_64130855", null, new { @class = "a" })
+            @Html.ActionLink("Cửa hàng", "Index_2", "Users_64130855")
+            @Html.ActionLink("Hỗ Trợ", "Support_2", "Users_64130855")
+
+        </div>
+        @{
+            var fullname = Session["fullName"] != null ? Session["fullName"].ToString() : "Khách";
+        }
+
+        <div class="ms-auto d-flex align-items-center gap-3">
+
+            @Html.Action("CartIcon", "Users_64130855")
+
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false" style="cursor:pointer; font-weight: 600; color: #2c3e50;">
+                    <span style="font-size: 1.2rem;">👤</span>&nbsp;
+                    <span style="font-size: 1rem;">@fullname</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm rounded-3" aria-labelledby="userDropdown" style="min-width: 220px;">
+                    <li>
+                        @Html.ActionLink("🧑 Thông tin người dùng", "ProfileUser", "Users_64130855", routeValues: null, htmlAttributes: new { @class = "dropdown-item py-2 px-3" })
+
+                    </li>
+                    <li>
+                        @Html.ActionLink("🛒 Lịch sử mua hàng", "OrderHistory", "Users_64130855", null, new { @class = "dropdown-item py-2 px-3" })
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        @Html.ActionLink("🚪 Đăng xuất", "GIOITHIEU_64130855", "UnUsers_64130855", null, new { @class = "dropdown-item py-2 px-3 text-danger" })
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="content-container">
+        @RenderBody()
+    </div>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

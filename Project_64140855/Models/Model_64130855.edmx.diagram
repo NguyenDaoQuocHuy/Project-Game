@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a51116cdd1464d76a402caf266ba3e32" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="Project_64130855Model.Cartgame" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Project_64130855Model.Category" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="Project_64130855Model.Game" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Project_64130855Model.OrderDetail" Width="1.5" PointX="8.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Project_64130855Model.Order" Width="1.5" PointX="6" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Project_64130855Model.User" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="Project_64130855Model.FK__Cartgames__GameI__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="Project_64130855Model.FK__Cartgames__UserI__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="Project_64130855Model.FK__Games__CategoryI__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="Project_64130855Model.FK__OrderDeta__GameI__5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="Project_64130855Model.FK__OrderDeta__Order__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="Project_64130855Model.FK__Orders__UserId__5165187F" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Project_64130855Model.CartItem" Width="1.5" PointX="8.25" PointY="6.25" />
+        <AssociationConnector Association="Project_64130855Model.FK__CartItems__GameI__70DDC3D8" />
+        <AssociationConnector Association="Project_64130855Model.FK__CartItems__UserI__6FE99F9F" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

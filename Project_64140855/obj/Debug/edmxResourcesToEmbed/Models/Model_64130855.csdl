@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Project_64130855Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Cartgame">
+    <Key>
+      <PropertyRef Name="CartGameId" />
+    </Key>
+    <Property Name="CartGameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="GameId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="DateAdded" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Game" Relationship="Self.FK__Cartgames__GameI__5DCAEF64" FromRole="Cartgames" ToRole="Games" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Cartgames__UserI__5CD6CB2B" FromRole="Cartgames" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Games" Relationship="Self.FK__Games__CategoryI__4E88ABD4" FromRole="Categories" ToRole="Games" />
+  </EntityType>
+  <EntityType Name="Game">
+    <Key>
+      <PropertyRef Name="GameId" />
+    </Key>
+    <Property Name="GameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryId" Type="Int32" />
+    <NavigationProperty Name="Cartgames" Relationship="Self.FK__Cartgames__GameI__5DCAEF64" FromRole="Games" ToRole="Cartgames" />
+    <NavigationProperty Name="Category" Relationship="Self.FK__Games__CategoryI__4E88ABD4" FromRole="Games" ToRole="Categories" />
+    <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__GameI__5629CD9C" FromRole="Games" ToRole="OrderDetails" />
+    <NavigationProperty Name="CartItems" Relationship="Project_64130855Model.FK__CartItems__GameI__70DDC3D8" FromRole="Game" ToRole="CartItem" />
+  </EntityType>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="OrderDetailId" />
+    </Key>
+    <Property Name="OrderDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="GameId" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <NavigationProperty Name="Game" Relationship="Self.FK__OrderDeta__GameI__5629CD9C" FromRole="OrderDetails" ToRole="Games" />
+    <NavigationProperty Name="Order" Relationship="Self.FK__OrderDeta__Order__5535A963" FromRole="OrderDetails" ToRole="Orders" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Order__5535A963" FromRole="Orders" ToRole="OrderDetails" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Orders__UserId__5165187F" FromRole="Orders" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Cartgames" Relationship="Self.FK__Cartgames__UserI__5CD6CB2B" FromRole="Users" ToRole="Cartgames" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__UserId__5165187F" FromRole="Users" ToRole="Orders" />
+    <NavigationProperty Name="CartItems" Relationship="Project_64130855Model.FK__CartItems__UserI__6FE99F9F" FromRole="User" ToRole="CartItem" />
+  </EntityType>
+  <Association Name="FK__Cartgames__GameI__5DCAEF64">
+    <End Role="Games" Type="Self.Game" Multiplicity="1" />
+    <End Role="Cartgames" Type="Self.Cartgame" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Games">
+        <PropertyRef Name="GameId" />
+      </Principal>
+      <Dependent Role="Cartgames">
+        <PropertyRef Name="GameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Cartgames__UserI__5CD6CB2B">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Cartgames" Type="Self.Cartgame" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Cartgames">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Games__CategoryI__4E88ABD4">
+    <End Role="Categories" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Games" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="Games">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderDeta__GameI__5629CD9C">
+    <End Role="Games" Type="Self.Game" Multiplicity="0..1" />
+    <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Games">
+        <PropertyRef Name="GameId" />
+      </Principal>
+      <Dependent Role="OrderDetails">
+        <PropertyRef Name="GameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderDeta__Order__5535A963">
+    <End Role="Orders" Type="Self.Order" Multiplicity="0..1" />
+    <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="OrderDetails">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__UserId__5165187F">
+    <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Project_64130855Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cartgames" EntityType="Self.Cartgame" />
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Games" EntityType="Self.Game" />
+    <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
+    <EntitySet Name="Orders" EntityType="Self.Order" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK__Cartgames__GameI__5DCAEF64" Association="Self.FK__Cartgames__GameI__5DCAEF64">
+      <End Role="Games" EntitySet="Games" />
+      <End Role="Cartgames" EntitySet="Cartgames" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Cartgames__UserI__5CD6CB2B" Association="Self.FK__Cartgames__UserI__5CD6CB2B">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Cartgames" EntitySet="Cartgames" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Games__CategoryI__4E88ABD4" Association="Self.FK__Games__CategoryI__4E88ABD4">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Games" EntitySet="Games" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderDeta__GameI__5629CD9C" Association="Self.FK__OrderDeta__GameI__5629CD9C">
+      <End Role="Games" EntitySet="Games" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderDeta__Order__5535A963" Association="Self.FK__OrderDeta__Order__5535A963">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__UserId__5165187F" Association="Self.FK__Orders__UserId__5165187F">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <EntitySet Name="CartItems" EntityType="Project_64130855Model.CartItem" />
+    <AssociationSet Name="FK__CartItems__GameI__70DDC3D8" Association="Project_64130855Model.FK__CartItems__GameI__70DDC3D8">
+      <End Role="Game" EntitySet="Games" />
+      <End Role="CartItem" EntitySet="CartItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CartItems__UserI__6FE99F9F" Association="Project_64130855Model.FK__CartItems__UserI__6FE99F9F">
+      <End Role="User" EntitySet="Users" />
+      <End Role="CartItem" EntitySet="CartItems" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CartItem">
+    <Key>
+      <PropertyRef Name="CartItemId" />
+    </Key>
+    <Property Name="CartItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="GameId" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Game" Relationship="Project_64130855Model.FK__CartItems__GameI__70DDC3D8" FromRole="CartItem" ToRole="Game" />
+    <NavigationProperty Name="User" Relationship="Project_64130855Model.FK__CartItems__UserI__6FE99F9F" FromRole="CartItem" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__CartItems__GameI__70DDC3D8">
+    <End Type="Project_64130855Model.Game" Role="Game" Multiplicity="0..1" />
+    <End Type="Project_64130855Model.CartItem" Role="CartItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Game">
+        <PropertyRef Name="GameId" />
+      </Principal>
+      <Dependent Role="CartItem">
+        <PropertyRef Name="GameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CartItems__UserI__6FE99F9F">
+    <End Type="Project_64130855Model.User" Role="User" Multiplicity="0..1" />
+    <End Type="Project_64130855Model.CartItem" Role="CartItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="CartItem">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

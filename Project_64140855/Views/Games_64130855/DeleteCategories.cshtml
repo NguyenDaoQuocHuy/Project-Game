@@ -1,0 +1,35 @@
+﻿@model Project_64140855.Models.Category
+
+@{
+    ViewBag.Title = "Xóa danh mục";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white text-center">
+            <h4>Xác nhận xóa danh mục</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Tên danh mục:</dt>
+                <dd class="col-sm-9">@Model.CategoryName</dd>
+            </dl>
+
+            <div class="alert alert-warning">
+                <strong>Bạn có chắc chắn muốn xóa danh mục này không?</strong><br />
+                Hành động này không thể hoàn tác!
+            </div>
+
+            @using (Html.BeginForm("DeleteConfirmedCategories", "Games_64130855", new { id = Model.CategoryId }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <button type="submit" class="btn btn-danger me-2">
+                    <i class="bi bi-trash"></i> Xóa
+                </button>
+                @Html.ActionLink("Hủy", "QlyCategories", null, new { @class = "btn btn-secondary" })
+            } <!-- 🔥 Dấu đóng này rất quan trọng -->
+        </div>
+    </div>
+</div>

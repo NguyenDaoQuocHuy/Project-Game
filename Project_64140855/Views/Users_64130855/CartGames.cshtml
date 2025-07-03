@@ -1,0 +1,131 @@
+﻿@model List<Project_64140855.Models.CartItem>
+
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layoutcus.cshtml";
+}
+
+<style>
+    .cart-container {
+        max-width: 900px;
+        margin: 40px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .cart-item {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+    }
+
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+
+    .cart-item-info {
+        flex: 1;
+    }
+
+    .cart-item-title {
+        font-weight: 600;
+        font-size: 1.2rem;
+        color: #2c3e50;
+    }
+
+    .cart-item-price {
+        color: #e74c3c;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .cart-item-quantity {
+        font-size: 1rem;
+        margin-top: 5px;
+    }
+
+    .total-price {
+        text-align: right;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-top: 20px;
+        color: #27ae60;
+    }
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        transition: background-color 0.2s;
+    }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+</style>
+
+<div class="cart-container">
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info" role="alert">
+            @TempData["Message"]
+        </div>
+    }
+    <h2 class="text-center">🛒 Giỏ hàng của bạn</h2>
+
+    @if (!Model.Any())
+    {
+        <p class="text-center">Giỏ hàng trống.</p>
+    }
+    else
+    {
+        decimal total = 0;
+
+        foreach (var item in Model)
+        {
+            var subtotal = item.Game.Price * item.Quantity;
+            total += subtotal;
+
+            <div class="cart-item">
+                <img src="@item.Game.ImageUrl" alt="@item.Game.Title" />
+                <div class="cart-item-info" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div>
+                        <div class="cart-item-title">@item.Game.Title</div>
+                        <div class="cart-item-price">💰 Giá: @item.Game.Price.ToString("N0") đ</div>
+                        <div class="cart-item-quantity">🔢 Số lượng: @item.Quantity</div>
+                        <div class="cart-item-price">📦 Thành tiền: @subtotal.ToString("N0") đ</div>
+                    </div>
+                    <form action="@Url.Action("RemoveFromCart", "Users_64130855")" method="post">
+                        <input type="hidden" name="gameId" value="@item.GameId" />
+                        <button type="submit" class="btn btn-danger btn-sm">🗑️ Xóa</button>
+                    </form>
+                </div>
+            </div>
+        }
+
+        <div class="total-price">
+            Tổng cộng: @total.ToString("N0") đ
+        </div>
+
+        <div style="text-align: right; margin-top: 20px;">
+            <form action="@Url.Action("Checkout", "Users_64130855")" method="post">
+                <button type="submit" class="btn btn-success">💳 Thanh toán</button>
+            </form>
+        </div>
+    }
+</div>
